@@ -7,7 +7,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ManejoErrores {
-    // Guardar errores 
     public static void guardarError(String mensaje) {
         
         System.err.println("ERROR: " + mensaje);

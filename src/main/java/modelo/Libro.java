@@ -1,9 +1,6 @@
 package modelo;
 
-// Clase Libro - hereda de Documento
-// Representa un libro fisico de la biblioteca con sus datos especificos
 public class Libro extends Documento {
-    // Datos propios de un libro
     private String isbn;        // Codigo unico del libro (ej: 978-84-376-0494-7)
     private String editorial;   // Casa editorial que lo publico
     private String edicion;     // Que edicion es (ej: "2a edicion")
@@ -13,7 +10,6 @@ public class Libro extends Documento {
 
     public Libro() {}
 
-    // Muestra un resumen con los datos del libro
     @Override
     public String verDetalles() {
         return "Libro - ISBN: " + isbn + ", Editorial: " + editorial + 
@@ -22,7 +18,6 @@ public class Libro extends Documento {
                " (" + anioPublicacion + ")";
     }
 
-    // Getters y Setters
     public String getIsbn() { return isbn; }
     public void setIsbn(String isbn) { this.isbn = isbn; }
     public String getEditorial() { return editorial; }

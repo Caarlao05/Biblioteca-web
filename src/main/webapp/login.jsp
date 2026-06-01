@@ -8,7 +8,7 @@
     <h1>Biblioteca Colegio Amigos de Don Bosco</h1>
     <h2>Iniciar sesion</h2>
     <hr>
-    <%-- Muestra mensaje de error si existe --%>
+
     <c:if test="${not empty error}">
         <p style="color: red;">${error}</p>
     </c:if>

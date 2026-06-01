@@ -1,9 +1,6 @@
 package modelo;
 
-// Clase Revista - hereda de Documento
-// Representa una revista o publicacion periodica de la biblioteca
 public class Revista extends Documento {
-    // Datos propios de una revista
     private String issn;         // Codigo unico de la revista (como el ISBN pero para revistas)
     private int edicion;         // Numero de edicion
     private int volumen;         // Volumen (agrupa los numeros de un periodo, normalmente un año)
@@ -11,7 +8,6 @@ public class Revista extends Documento {
     private String periodicidad; // Cada cuanto se publica (Mensual, Trimestral, etc.)
     private String editorial;    // Editorial que la publica
 
-    // Muestra un resumen con los datos de la revista
     @Override
     public String verDetalles() {
         return "Revista - ISSN: " + issn + ", Edición: " + edicion +
@@ -20,7 +16,6 @@ public class Revista extends Documento {
                ", Editorial: " + editorial;
     }
 
-    // Getters y Setters
     public String getIssn() { return issn; }
     public void setIssn(String issn) { this.issn = issn; }
     public int getEdicion() { return edicion; }

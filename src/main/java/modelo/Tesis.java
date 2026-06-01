@@ -1,9 +1,6 @@
 package modelo;
 
-// Clase Tesis - hereda de Documento
-// Representa una tesis o trabajo de grado guardado en la biblioteca
 public class Tesis extends Documento {
-    // Datos propios de una tesis
     private String carrera;         // De que carrera es la tesis
     private String universidad;     // En que universidad se presento
     private String gradoAcademico;  // Que grado se obtuvo (Tecnico, Licenciatura, Maestria, etc.)
@@ -11,7 +8,6 @@ public class Tesis extends Documento {
     private String fechaDefensa;    // Cuando se defendio la tesis (formato YYYY-MM-DD)
     private int numPaginas;         // Cuantas paginas tiene
 
-    // Muestra un resumen con los datos de la tesis
     @Override
     public String verDetalles() {
         return "Tesis - " + gradoAcademico + " en " + carrera + 
@@ -19,7 +15,6 @@ public class Tesis extends Documento {
                ", Defensa: " + fechaDefensa + ", Págs: " + numPaginas;
     }
 
-    // Getters y Setters
     public String getCarrera() { return carrera; }
     public void setCarrera(String carrera) { this.carrera = carrera; }
     public String getUniversidad() { return universidad; }

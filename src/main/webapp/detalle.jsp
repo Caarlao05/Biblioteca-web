@@ -1,48 +1,64 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ include file="/header.jsp" %>
-    <h1>Detalle del documento</h1>
-    <hr>
 
-    <table border="2" cellpadding="8" cellspacing="0">
+<div style="background-color: #f9f9f9; padding: 5px; margin-top: 10px; border: 1px solid #ddd; font-size: 12px;">
+    <span style="background-color: #cddc39; width: 10px; display: inline-block;">&nbsp;</span>
+    <b style="color: #999;">CITA COMPLETA</b>
+</div>
+
+<div style="margin-left: 50px; font-size: 12px; margin-top: 20px;">
+    <table border="0" cellpadding="4" cellspacing="0" style="font-size: 12px;">
         <tr>
-            <th>Codigo</th>
-            <td>${doc.codigo}</td>
-        </tr>
-        <tr>
-            <th>Titulo</th>
-            <td>${doc.titulo}</td>
-        </tr>
-        <tr>
-            <th>Autor</th>
+            <td align="right" valign="top" width="120"><b>Autor:</b></td>
             <td>${doc.autor}</td>
         </tr>
         <tr>
-            <th>Tipo</th>
-            <td>${doc.tipo}</td>
+            <td align="right" valign="top"><b>Título:</b></td>
+            <td>${doc.titulo}</td>
         </tr>
         <tr>
-            <th>Año de publicacion</th>
-            <td>${doc.anioPublicacion}</td>
+            <td align="right" valign="top"><b>Clasificación:</b></td>
+            <td>${doc.tipo} ${doc.codigo}</td>
         </tr>
         <tr>
-            <th>Clasificacion</th>
-            <td>${doc.clasificacion}</td>
+            <td align="right" valign="top"><b>Publisher:</b></td>
+            <td>Ediciones UDB, ${doc.anioPublicacion}</td>
         </tr>
         <tr>
-            <th>Ubicacion</th>
-            <td>${doc.ubicacion}</td>
+            <td align="right" valign="top"><b>Descripción:</b></td>
+            <td>Ejemplares Totales: ${doc.ejemplares}</td>
         </tr>
         <tr>
-            <th>Ejemplares disponibles</th>
-            <td>${doc.disponibles} de ${doc.total}</td>
-        </tr>
-        <tr>
-            <th>Estado fisico</th>
+            <td align="right" valign="top"><b>Estado Físico:</b></td>
             <td>${doc.estadoFisico}</td>
         </tr>
     </table>
 
-    <hr>
-    <a href="consulta">Volver al catalogo</a>
+    <br>
+    <b>Ubicación de copias:</b><br>
+    <div style="margin-left: 20px; margin-top: 10px;">
+        BCA. CENTRAL - Item: ${doc.codigo} - 
+        <c:choose>
+            <c:when test="${doc.disponibles > 0}">
+                (DISPONIBLE) 
+                <c:if test="${not empty sessionScope.usuarioActivo and sessionScope.usuarioActivo.idRol != 1}">
+                    &nbsp; <a href="${pageContext.request.contextPath}/privado/prestamos.jsp?prestar_id=${doc.id}" style="color: #1a0dab; text-decoration: none;">🔍 Reservar</a>
+                </c:if>
+                <c:if test="${empty sessionScope.usuarioActivo}">
+                    &nbsp; <a href="${pageContext.request.contextPath}/login" style="color: #1a0dab; text-decoration: none;">🔍 Iniciar sesión para prestar</a>
+                </c:if>
+            </c:when>
+            <c:otherwise>
+                (NO DISPONIBLE)
+            </c:otherwise>
+        </c:choose>
+    </div>
+</div>
+
+<br><hr style="border: 0; border-top: 1px solid #ccc;">
+<div align="right" style="font-size: 11px;">
+    <a href="consulta" style="color: #1a0dab; text-decoration: none;">Nueva búsqueda</a>
+</div>
+
 <%@ include file="/footer.jsp" %>

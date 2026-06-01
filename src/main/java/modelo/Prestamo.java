@@ -11,6 +11,11 @@ public class Prestamo {
     private String estado;
     private double mora;
 
+    private String tituloDocumento;
+    private String codigoDocumento;
+    private String nombreUsuario;
+    private int diasRetraso;
+
     public Prestamo() {}
 
     public int getId() { return id; }
@@ -27,4 +32,13 @@ public class Prestamo {
     public void setEstado(String estado) { this.estado = estado; }
     public double getMora() { return mora; }
     public void setMora(double mora) { this.mora = mora; }
+
+    public String getTituloDocumento() { return tituloDocumento; }
+    public void setTituloDocumento(String tituloDocumento) { this.tituloDocumento = tituloDocumento; }
+    public String getCodigoDocumento() { return codigoDocumento; }
+    public void setCodigoDocumento(String codigoDocumento) { this.codigoDocumento = codigoDocumento; }
+    public String getNombreUsuario() { return nombreUsuario; }
+    public void setNombreUsuario(String nombreUsuario) { this.nombreUsuario = nombreUsuario; }
+    public int getDiasRetraso() { return diasRetraso; }
+    public void setDiasRetraso(int diasRetraso) { this.diasRetraso = diasRetraso; }
 }

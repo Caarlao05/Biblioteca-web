@@ -13,11 +13,8 @@ import modelo.CD;
 import modelo.Tesis;
 import utilidades.ManejoErrores;
 
-// Clase que se encarga de todas las operaciones de documentos contra la base de datos
-// Aqui se hacen las consultas para insertar y listar libros, revistas, cds y tesis
 public class DocumentoDAO {
     
-    // Trae todos los documentos sin importar el tipo
     public List<Documento> listarTodos() {
         List<Documento> lista = new ArrayList<>();
         String sql = "SELECT * FROM documentos ORDER BY tipo, titulo";
@@ -31,7 +28,6 @@ public class DocumentoDAO {
                     Documento doc = null;
                     int idDoc = rs.getInt("id_documento");
                     
-                    // Segun el tipo, cargamos los datos especificos de cada documento
                     switch(tipo) {
                         case "LIBRO": doc = cargarDetallesLibro(con, idDoc, rs); break;
                         case "REVISTA": doc = cargarDetallesRevista(con, idDoc, rs); break;
@@ -48,7 +44,6 @@ public class DocumentoDAO {
         return lista;
     }
 
-    // Metodos para listar por cada tipo de documento
     public List<Documento> listarLibros() {
         return listarPorTipo("LIBRO");
     }
@@ -65,7 +60,6 @@ public class DocumentoDAO {
         return listarPorTipo("TESIS");
     }
 
-    // Metodo generico que filtra documentos por tipo
     private List<Documento> listarPorTipo(String tipo) {
         List<Documento> lista = new ArrayList<>();
         String sqlBase = "SELECT d.* FROM documentos d WHERE d.tipo = ? ORDER BY d.titulo";
@@ -94,10 +88,7 @@ public class DocumentoDAO {
         return lista;
     }
 
-    // --- Metodos para cargar los datos especificos de cada tipo ---
-    // Cada tipo tiene su propia tabla con campos extras
 
-    // Carga los datos extras de un libro (isbn, editorial, edicion, etc.)
     private Libro cargarDetallesLibro(Connection con, int idDoc, ResultSet rsDoc) throws Exception {
         Libro lib = new Libro();
         llenarDocumentoBase(lib, rsDoc);
@@ -116,7 +107,6 @@ public class DocumentoDAO {
         return lib;
     }
 
-    // Carga los datos extras de una revista (issn, volumen, numero, etc.)
     private Revista cargarDetallesRevista(Connection con, int idDoc, ResultSet rsDoc) throws Exception {
         Revista rev = new Revista();
         llenarDocumentoBase(rev, rsDoc);
@@ -135,7 +125,6 @@ public class DocumentoDAO {
         return rev;
     }
 
-    // Carga los datos extras de un CD (genero, duracion, formato, etc.)
     private CD cargarDetallesCD(Connection con, int idDoc, ResultSet rsDoc) throws Exception {
         CD cd = new CD();
         llenarDocumentoBase(cd, rsDoc);
@@ -153,7 +142,6 @@ public class DocumentoDAO {
         return cd;
     }
 
-    // Carga los datos extras de una tesis (carrera, universidad, asesor, etc.)
     private Tesis cargarDetallesTesis(Connection con, int idDoc, ResultSet rsDoc) throws Exception {
         Tesis tesis = new Tesis();
         llenarDocumentoBase(tesis, rsDoc);
@@ -173,8 +161,6 @@ public class DocumentoDAO {
         return tesis;
     }
 
-    // Llena los campos que son iguales para todos los documentos
-    // (titulo, autor, codigo, ubicacion, etc.)
     private void llenarDocumentoBase(Documento doc, ResultSet rs) throws Exception {
         doc.setId(rs.getInt("id_documento"));
         doc.setCodigo(rs.getString("codigo"));
@@ -189,8 +175,6 @@ public class DocumentoDAO {
         doc.setTipo(rs.getString("tipo"));
     }
 
-    // --- Metodo base para insertar en la tabla documentos ---
-    // Todos los tipos pasan por aqui primero porque comparten la misma tabla base
     private int insertarDocumentoBase(Connection con, Documento doc, String tipo) throws Exception {
         String sqlDoc = "INSERT INTO documentos (codigo, titulo, autor, anio_publicacion, clasificacion, ubicacion, tipo, disponibles, total, estado_fisico) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement psDoc = con.prepareStatement(sqlDoc, Statement.RETURN_GENERATED_KEYS);
@@ -206,7 +190,6 @@ public class DocumentoDAO {
         psDoc.setString(10, doc.getEstadoFisico());
         psDoc.executeUpdate();
 
-        // Obtenemos el ID que se genero para luego usarlo en la tabla especifica
         ResultSet rs = psDoc.getGeneratedKeys();
         int idGenerado = 0;
         if (rs.next()) {
@@ -215,8 +198,6 @@ public class DocumentoDAO {
         return idGenerado;
     }
 
-    // Registra un libro nuevo en la base de datos
-    // Primero inserta en 'documentos' y luego en 'libros' con los datos extras
     public boolean registrarLibro(Libro libro) {
         try {
             Connection con = Conexion.obtenerConexion();
@@ -224,7 +205,6 @@ public class DocumentoDAO {
 
             int idGenerado = insertarDocumentoBase(con, libro, "LIBRO");
 
-            // Insertamos los datos especificos del libro
             String sqlLibro = "INSERT INTO libros (id_documento, isbn, editorial, edicion, num_paginas, idioma, materia) VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement psLib = con.prepareStatement(sqlLibro);
             psLib.setInt(1, idGenerado);
@@ -245,7 +225,6 @@ public class DocumentoDAO {
         }
     }
 
-    // Registra una revista nueva
     public boolean registrarRevista(Revista revista) {
         try {
             Connection con = Conexion.obtenerConexion();
@@ -273,7 +252,6 @@ public class DocumentoDAO {
         }
     }
 
-    // Registra un CD nuevo
     public boolean registrarCD(CD cd) {
         try {
             Connection con = Conexion.obtenerConexion();
@@ -300,7 +278,6 @@ public class DocumentoDAO {
         }
     }
 
-    // Registra una tesis nueva
     public boolean registrarTesis(Tesis tesis) {
         try {
             Connection con = Conexion.obtenerConexion();
@@ -315,7 +292,6 @@ public class DocumentoDAO {
             psTesis.setString(3, tesis.getUniversidad());
             psTesis.setString(4, tesis.getGradoAcademico());
             psTesis.setString(5, tesis.getAsesor());
-            // Si no tiene fecha de defensa, se guarda como null
             if (tesis.getFechaDefensa() != null && !tesis.getFechaDefensa().isEmpty()) {
                 psTesis.setDate(6, java.sql.Date.valueOf(tesis.getFechaDefensa()));
             } else {
@@ -333,16 +309,13 @@ public class DocumentoDAO {
         }
     }
 
-    // Busca documentos aplicando filtros dinamicos segun lo que el usuario escribio
     public List<Documento> buscar(String titulo, String autor, String tipo, String idioma) {
         List<Documento> lista = new ArrayList<>();
 
-        // Construimos el SQL dinamicamente segun los filtros que lleguen
         StringBuilder sql = new StringBuilder(
                 "SELECT * FROM documentos WHERE 1=1"
         );
 
-        // Solo agregamos la condicion si el filtro no viene vacio
         if (titulo != null && !titulo.isEmpty()) {
             sql.append(" AND titulo LIKE ?");
         }
@@ -360,7 +333,6 @@ public class DocumentoDAO {
             if (con != null) {
                 PreparedStatement ps = con.prepareStatement(sql.toString());
 
-                // Asignamos los valores a los signos ? en el mismo orden que los agregamos
                 int indice = 1;
                 if (titulo != null && !titulo.isEmpty()) {
                     ps.setString(indice++, "%" + titulo + "%");
@@ -394,7 +366,6 @@ public class DocumentoDAO {
         return lista;
     }
 
-    // Busca un documento especifico por su ID
     public Documento buscarPorId(int id) {
         Documento doc = null;
         String sql = "SELECT * FROM documentos WHERE id_documento = ?";

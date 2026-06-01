@@ -7,14 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 import utilidades.ManejoErrores;
 
-// Clase que maneja la configuracion del sistema desde la base de datos
-// Tiene dos partes: la mora por año y los limites de prestamo por rol
 public class ConfiguracionDAO {
 
-    // ===== PARTE 1: MORA POR AÑO =====
 
-    // Busca en la BD cuanto es la mora diaria para un año especifico
-    // Si no hay dato para ese año, usa $0.50 por defecto
     public double obtenerMoraDiaria(int anio) {
         double mora = 0.50;
         String sql = "SELECT mora_diaria FROM configuracion_mora WHERE anio = ?";
@@ -35,7 +30,6 @@ public class ConfiguracionDAO {
         return mora;
     }
 
-    // Trae todas las moras configuradas para mostrarlas en la tabla
     public List<String[]> listarMoras() {
         List<String[]> lista = new ArrayList<>();
         String sql = "SELECT anio, mora_diaria FROM configuracion_mora ORDER BY anio";
@@ -58,8 +52,6 @@ public class ConfiguracionDAO {
         return lista;
     }
 
-    // Guarda o actualiza la mora para un año
-    // Si el año ya existe lo actualiza, si no lo crea
     public boolean guardarMora(int anio, double moraDiaria) {
         String sql = "INSERT INTO configuracion_mora (anio, mora_diaria) VALUES (?, ?) " +
                      "ON DUPLICATE KEY UPDATE mora_diaria = ?";
@@ -80,7 +72,6 @@ public class ConfiguracionDAO {
         return false;
     }
 
-    // Elimina la mora configurada para un año
     public boolean eliminarMora(int anio) {
         String sql = "DELETE FROM configuracion_mora WHERE anio = ?";
         try {
@@ -98,10 +89,7 @@ public class ConfiguracionDAO {
         return false;
     }
 
-    // ===== PARTE 2: LIMITES DE PRESTAMOS POR ROL =====
 
-    // Busca cuantos ejemplares puede prestar un usuario segun su rol
-    // Si no hay dato, por defecto son 3
     public int obtenerMaxEjemplares(int idRol) {
         int max = 3;
         String sql = "SELECT max_ejemplares FROM configuracion_prestamos WHERE id_rol = ?";
@@ -122,8 +110,6 @@ public class ConfiguracionDAO {
         return max;
     }
 
-    // Busca cuantos dias maximo puede durar un prestamo segun el rol
-    // Si no hay dato, por defecto son 7 dias
     public int obtenerMaxDias(int idRol) {
         int max = 7;
         String sql = "SELECT max_dias FROM configuracion_prestamos WHERE id_rol = ?";
@@ -144,7 +130,6 @@ public class ConfiguracionDAO {
         return max;
     }
 
-    // Trae la configuracion de todos los roles para mostrarla en la tabla
     public List<String[]> listarConfigPrestamos() {
         List<String[]> lista = new ArrayList<>();
         String sql = "SELECT r.nombre, cp.id_rol, cp.max_ejemplares, cp.max_dias " +
@@ -172,7 +157,6 @@ public class ConfiguracionDAO {
         return lista;
     }
 
-    // Guarda o actualiza los limites de prestamo para un rol
     public boolean actualizarConfigPrestamo(int idRol, int maxEjemplares, int maxDias) {
         String sql = "INSERT INTO configuracion_prestamos (id_rol, max_ejemplares, max_dias) VALUES (?, ?, ?) " +
                      "ON DUPLICATE KEY UPDATE max_ejemplares = ?, max_dias = ?";

@@ -1,7 +1,10 @@
-</main>
-    <footer>
-        <hr>
-        <p>Biblioteca Colegio Amigos de Don Bosco &copy;</p>
-    </footer>
+    </td>
+</tr>
+</table>
+
+<div style="text-align: center; font-size: 10px; color: #666; margin: 20px 0; border-top: 1px solid #ccc; padding-top: 10px;">
+    Todos los derechos reservados / Powered by <b>GLIFOS</b>
+</div>
+
 </body>
 </html>
