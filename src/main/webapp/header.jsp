@@ -12,7 +12,7 @@
 <tr>
     <td width="200" valign="top" style="border-right: 1px solid #ccc; padding: 15px;">
         <div style="text-align: center; margin-bottom: 20px;">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Udb_logo.svg/1200px-Udb_logo.svg.png" alt="UDB Logo" width="120">
+            <img src="${pageContext.request.contextPath}/img/logo.png" alt="UDB Logo" width="120" style="border-radius: 10px;">
         </div>
         
         <div style="border: 1px solid #cddc39; padding: 10px; margin-bottom: 15px;">

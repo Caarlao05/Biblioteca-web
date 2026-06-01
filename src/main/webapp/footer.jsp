@@ -3,7 +3,7 @@
 </table>
 
 <div style="text-align: center; font-size: 10px; color: #666; margin: 20px 0; border-top: 1px solid #ccc; padding-top: 10px;">
-    Todos los derechos reservados / Powered by <b>GLIFOS</b>
+    &copy; Biblioteca Universitario
 </div>
 
 </body>
